@@ -1,7 +1,0 @@
-name: Ipcheck
-version: ${project.version}
-main: com.branwidth.ipcheck.Ipcheck
-prefix: [IP-Check]
-authors: [BranFlakes]
-description: Plugin to check IPs for VPNs or Proxies
-website: Branwidth.com
