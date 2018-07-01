@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_ipcheck" default="compile.module.ipcheck">
+  <dirname property="module.ipcheck.basedir" file="${ant.file.module_ipcheck}"/>
+  
+  <property name="module.jdk.home.ipcheck" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.ipcheck" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.ipcheck" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.ipcheck" value="-encoding UTF-8 -source 1.8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="ipcheck.output.dir" value="${module.ipcheck.basedir}/target/classes"/>
+  <property name="ipcheck.testoutput.dir" value="${module.ipcheck.basedir}/target/test-classes"/>
+  
+  <path id="ipcheck.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="ipcheck.module.production.classpath">
+    <path refid="${module.jdk.classpath.ipcheck}"/>
+    <path refid="library.maven:_org.spigotmc:spigot-api:1.12.2-r0.1-snapshot.classpath"/>
+    <path refid="library.maven:_commons-lang:commons-lang:2.6.classpath"/>
+    <path refid="library.maven:_com.googlecode.json-simple:json-simple:1.1.1.classpath"/>
+    <path refid="library.maven:_junit:junit:4.10.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.1.classpath"/>
+    <path refid="library.maven:_com.google.guava:guava:21.0.classpath"/>
+    <path refid="library.maven:_com.google.code.gson:gson:2.8.0.classpath"/>
+    <path refid="library.maven:_org.yaml:snakeyaml:1.19.classpath"/>
+    <path refid="library.maven:_net.md-5:bungeecord-chat:1.12-snapshot.classpath"/>
+  </path>
+  
+  <path id="ipcheck.runtime.production.module.classpath">
+    <pathelement location="${ipcheck.output.dir}"/>
+  </path>
+  
+  <path id="ipcheck.module.classpath">
+    <path refid="${module.jdk.classpath.ipcheck}"/>
+    <pathelement location="${ipcheck.output.dir}"/>
+    <path refid="library.maven:_org.spigotmc:spigot-api:1.12.2-r0.1-snapshot.classpath"/>
+    <path refid="library.maven:_commons-lang:commons-lang:2.6.classpath"/>
+    <path refid="library.maven:_com.googlecode.json-simple:json-simple:1.1.1.classpath"/>
+    <path refid="library.maven:_junit:junit:4.10.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.1.classpath"/>
+    <path refid="library.maven:_com.google.guava:guava:21.0.classpath"/>
+    <path refid="library.maven:_com.google.code.gson:gson:2.8.0.classpath"/>
+    <path refid="library.maven:_org.yaml:snakeyaml:1.19.classpath"/>
+    <path refid="library.maven:_net.md-5:bungeecord-chat:1.12-snapshot.classpath"/>
+  </path>
+  
+  <path id="ipcheck.runtime.module.classpath">
+    <pathelement location="${ipcheck.testoutput.dir}"/>
+    <pathelement location="${ipcheck.output.dir}"/>
+    <path refid="library.maven:_org.spigotmc:spigot-api:1.12.2-r0.1-snapshot.classpath"/>
+    <path refid="library.maven:_commons-lang:commons-lang:2.6.classpath"/>
+    <path refid="library.maven:_com.googlecode.json-simple:json-simple:1.1.1.classpath"/>
+    <path refid="library.maven:_junit:junit:4.10.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.1.classpath"/>
+    <path refid="library.maven:_com.google.guava:guava:21.0.classpath"/>
+    <path refid="library.maven:_com.google.code.gson:gson:2.8.0.classpath"/>
+    <path refid="library.maven:_org.yaml:snakeyaml:1.19.classpath"/>
+    <path refid="library.maven:_net.md-5:bungeecord-chat:1.12-snapshot.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.ipcheck">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.ipcheck">
+    <patternset refid="excluded.from.module.ipcheck"/>
+  </patternset>
+  
+  <path id="ipcheck.module.sourcepath">
+    <dirset dir="${module.ipcheck.basedir}">
+      <include name="src/main/java"/>
+      <include name="src/main/resources"/>
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  <path id="ipcheck.module.test.sourcepath">
+    <dirset dir="${module.ipcheck.basedir}">
+      <include name="src/test/java"/>
+      <include name="src/test/resources"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.ipcheck" depends="compile.module.ipcheck.production,compile.module.ipcheck.tests" description="Compile module ipcheck"/>
+  
+  <target name="compile.module.ipcheck.production" depends="register.custom.compilers" description="Compile module ipcheck; production classes">
+    <mkdir dir="${ipcheck.output.dir}"/>
+    <javac2 destdir="${ipcheck.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.ipcheck}/javac">
+      <compilerarg line="${compiler.args.ipcheck}"/>
+      <bootclasspath refid="ipcheck.module.bootclasspath"/>
+      <classpath refid="ipcheck.module.production.classpath"/>
+      <src refid="ipcheck.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.ipcheck"/>
+    </javac2>
+    
+    <copy todir="${ipcheck.output.dir}">
+      <fileset dir="${module.ipcheck.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.ipcheck.basedir}/src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.ipcheck.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.ipcheck.tests" depends="register.custom.compilers,compile.module.ipcheck.production" description="compile module ipcheck; test classes" unless="skip.tests">
+    <mkdir dir="${ipcheck.testoutput.dir}"/>
+    <javac2 destdir="${ipcheck.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.ipcheck}/javac">
+      <compilerarg line="${compiler.args.ipcheck}"/>
+      <bootclasspath refid="ipcheck.module.bootclasspath"/>
+      <classpath refid="ipcheck.module.classpath"/>
+      <src refid="ipcheck.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.ipcheck"/>
+    </javac2>
+    
+    <copy todir="${ipcheck.testoutput.dir}">
+      <fileset dir="${module.ipcheck.basedir}/src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.ipcheck.basedir}/src/test/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.ipcheck" description="cleanup module">
+    <delete dir="${ipcheck.output.dir}"/>
+    <delete dir="${ipcheck.testoutput.dir}"/>
+  </target>
+</project>

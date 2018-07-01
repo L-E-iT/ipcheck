@@ -1,0 +1,10 @@
+# Config file for ipCheck
+
+# Level selection to block at.  More information here: https://iphub.info/api
+BlockLevel_0: false
+BlockLevel_1: true
+BlockLevel_2: false
+
+# API Key for iphub if needed.  Get on here: https://iphub.info
+# Leave at `none` if you do not have a key.  Change to your API key if you need more than 1000 requests a day
+APIKey: none
